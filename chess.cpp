@@ -4,6 +4,8 @@
 #include <string.h>
 #include <string>
 #include <sstream>
+#include <algorithm> // for std::find
+#include <iterator> // for std::begin, std::end
 
 using namespace std;
 
@@ -45,8 +47,7 @@ void GetWhiteFigure(string arr[10][10],int y ,int x,int _x,int _y)
     if(figure==" ♜ ")
     {
         for(int i=x+1;i<10;i++)
-        {
-            
+        { 
             arr[y][i]=" X ";
         }
         for(int i=x-1;i>1;i--)
@@ -55,11 +56,29 @@ void GetWhiteFigure(string arr[10][10],int y ,int x,int _x,int _y)
         }
         for(int i=y+1;i<10;i++)
         {
-            arr[i][x]=" X ";
+            arr[y][i]=" X ";
         }
         for(int i=y-1;i>0;i--)
         {
-            arr[i][x]=" X ";
+            if(i==_y&&x==_x)
+            {
+                if((arr[i][x]==" ◻ "||arr[i][x]==" ◼ "))
+                {
+                    arr[i][x]=" X ";
+                }
+                else
+                {
+                    if(find(begin(black),end(black),arr[i][x]) == end(black)
+                    &&find(begin(black),end(black),arr[i+1][x]) != end(black))
+                    {
+                        arr[i][x]=" X ";        
+                    }
+                    
+                }
+            }
+            
+           
+            
         }
         //arr[y][x-1]=" X ";
         //arr[y-1][x]=" X ";
