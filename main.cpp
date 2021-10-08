@@ -28,7 +28,7 @@ void RestartBoard(string arr[3][3],string arr_copy[3][3])
   RenderBoard(arr);
 }
 
-void X_Input(string arr[3][3],string arr_copy[3][3],int counter)
+void X_Input(string arr[3][3],string arr_copy[3][3])
 {
   system("cls");
   RenderBoard(arr);
@@ -39,11 +39,10 @@ void X_Input(string arr[3][3],string arr_copy[3][3],int counter)
   {
     if(arr[0][x-1]=="| o |")
     {
-      X_Input(arr,arr_copy,counter);
+      X_Input(arr,arr_copy);
     }
     else
     {
-      counter=counter+1;
       arr[0][x-1]="| x |";
       system("cls");
       RenderBoard(arr);
@@ -54,11 +53,10 @@ void X_Input(string arr[3][3],string arr_copy[3][3],int counter)
   {
     if(arr[1][x-4]=="| o |")
     {
-      X_Input(arr,arr_copy,counter);
+      X_Input(arr,arr_copy);
     }
     else
     {
-      counter=counter+1;
       arr[1][x-4]="| x |";
       system("cls");
       RenderBoard(arr);
@@ -68,11 +66,10 @@ void X_Input(string arr[3][3],string arr_copy[3][3],int counter)
   {
     if(arr[2][x-7]=="| o |")
     {
-      X_Input(arr,arr_copy,counter);
+      X_Input(arr,arr_copy);
     }
     else
     {
-      counter=counter+1;
       arr[2][x-7]="| x |";
       system("cls");
       RenderBoard(arr);
@@ -92,7 +89,6 @@ void X_Input(string arr[3][3],string arr_copy[3][3],int counter)
         diag_2=arr[0][2]+arr[1][1]+arr[2][0];
         if(textrow=="| x || x || x |"||textcol=="| x || x || x |"||diag_1=="| x || x || x |"||diag_2=="| x || x || x |")
         {
-          counter=0;
           cout<<" X player wins! ";
           RestartBoard(arr,arr_copy);
         }
@@ -104,7 +100,7 @@ void X_Input(string arr[3][3],string arr_copy[3][3],int counter)
     }
 }
 
-void O_Input(string arr[3][3],string arr_copy[3][3],int counter)
+void O_Input(string arr[3][3],string arr_copy[3][3])
 {
   system("cls");
   RenderBoard(arr);
@@ -115,11 +111,10 @@ void O_Input(string arr[3][3],string arr_copy[3][3],int counter)
   {
     if(arr[0][o-1]=="| x |")
     {
-      O_Input(arr,arr_copy,counter);
+      O_Input(arr,arr_copy);
     }
     else
     {
-    counter=counter+1;
     arr[0][o-1]="| o |";
     system("cls");
     RenderBoard(arr);
@@ -129,11 +124,11 @@ void O_Input(string arr[3][3],string arr_copy[3][3],int counter)
   {
     if(arr[1][o-4]=="| x |")
     {
-      O_Input(arr,arr_copy,counter);
+      O_Input(arr,arr_copy);
     }
     else
     {
-      counter=counter+1;
+
       arr[1][o-4]="| o |";
       system("cls");
       RenderBoard(arr);
@@ -143,11 +138,10 @@ void O_Input(string arr[3][3],string arr_copy[3][3],int counter)
   {
     if(arr[2][o-7]=="| x |")
     {
-      O_Input(arr,arr_copy,counter);
+      O_Input(arr,arr_copy);
     }
     else
     {
-    counter=counter+1;
     arr[2][o-7]="| o |";
     system("cls");
     RenderBoard(arr);
@@ -167,7 +161,6 @@ void O_Input(string arr[3][3],string arr_copy[3][3],int counter)
         diag_2=arr[0][2]+arr[1][1]+arr[2][0];
         if (textrow=="| o || o || o |"||textcol=="| o || o || o |"||diag_1=="| o || o || o |"||diag_2=="| o || o || o |")
         {
-          counter=0;
           cout<<" O player wins! ";
           RestartBoard(arr,arr_copy);
         }
@@ -189,14 +182,16 @@ int main()
   int counter=0;
   while (true)
   {
-    X_Input(arr,arr_copy,counter);
+    X_Input(arr,arr_copy);
+    counter++;
     if (counter>=9)
     {
       cout<<" Draw! ";
       counter=0;
       RestartBoard(arr,arr_copy);
     }
-    O_Input(arr,arr_copy,counter);
+    O_Input(arr,arr_copy);
+    counter++;
     if (counter>=9)
     {
       cout<<" Draw! ";
