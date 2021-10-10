@@ -55,10 +55,21 @@ void GetWhiteFigure(string arr[10][10],int y ,int x,int _x,int _y)
                 {
                     WhiteMovement(arr,y,x,_x,_y);
                 }
+<<<<<<< HEAD
                 else if(find(begin(black),end(black),arr[y][i]) != end(black)
                     &&find(begin(black),end(black),arr[y][i-1]) == end(black))
                 {
                     WhiteMovement(arr,y,x,_x,_y);        
+=======
+                else
+                {
+                    if(find(begin(black),end(black),arr[y][i]) != end(black)
+                    &&find(begin(black),end(black),arr[y][i-1]) == end(black))
+                    {
+                        WhiteMovement(arr,y,x,_x,_y);        
+                    }
+                    
+>>>>>>> 8c9db727621b7df84e69ae53d460d22a2eb65316
                 }
             }      
         }
@@ -70,10 +81,21 @@ void GetWhiteFigure(string arr[10][10],int y ,int x,int _x,int _y)
                 {
                     WhiteMovement(arr,y,x,_x,_y);
                 }
+<<<<<<< HEAD
                 else if(find(begin(black),end(black),arr[y][i]) != end(black)
                     &&find(begin(black),end(black),arr[y][i+1]) == end(black))
                 {
                     WhiteMovement(arr,y,x,_x,_y);       
+=======
+                else
+                {
+                    if(find(begin(black),end(black),arr[y][i]) != end(black)
+                    &&find(begin(black),end(black),arr[y][i+1]) == end(black))
+                    {
+                        WhiteMovement(arr,y,x,_x,_y);       
+                    }
+                    
+>>>>>>> 8c9db727621b7df84e69ae53d460d22a2eb65316
                 }
             }      
         }
@@ -85,10 +107,21 @@ void GetWhiteFigure(string arr[10][10],int y ,int x,int _x,int _y)
                 {
                     WhiteMovement(arr,y,x,_x,_y);
                 }
+<<<<<<< HEAD
                 else if(find(begin(black),end(black),arr[i][x]) != end(black)
                     &&find(begin(black),end(black),arr[i-1][x]) == end(black))
                 {
                     WhiteMovement(arr,y,x,_x,_y);       
+=======
+                else
+                {
+                    if(find(begin(black),end(black),arr[i][x]) != end(black)
+                    &&find(begin(black),end(black),arr[i-1][x]) == end(black))
+                    {
+                        WhiteMovement(arr,y,x,_x,_y);       
+                    }
+                    
+>>>>>>> 8c9db727621b7df84e69ae53d460d22a2eb65316
                 }
             }      
         }
@@ -103,7 +136,18 @@ void GetWhiteFigure(string arr[10][10],int y ,int x,int _x,int _y)
                 else if(find(begin(black),end(black),arr[i][x]) != end(black)
                     &&find(begin(black),end(black),arr[i+1][x]) == end(black))
                 {
+<<<<<<< HEAD
                     WhiteMovement(arr,y,x,_x,_y);        
+=======
+                    cout<<arr[i+1][x]<<endl;
+                    cout<<arr[i][x]<<endl;
+                    if(find(begin(black),end(black),arr[i][x]) != end(black)
+                    &&find(begin(black),end(black),arr[i+1][x]) == end(black))
+                    {
+                        WhiteMovement(arr,y,x,_x,_y);        
+                    }
+                    
+>>>>>>> 8c9db727621b7df84e69ae53d460d22a2eb65316
                 }
             }          
         }
@@ -215,6 +259,7 @@ void GetWhiteFigure(string arr[10][10],int y ,int x,int _x,int _y)
     else if(figure==" ♝ ")
     {
         for(int i =1;x+i<=9;i++)
+<<<<<<< HEAD
         {  
             //arr[y-i][x+i]=" X ";
             if(y-i==_y&&x+i==_x)
@@ -287,6 +332,24 @@ void GetWhiteFigure(string arr[10][10],int y ,int x,int _x,int _y)
             }  
         }
         
+=======
+        {
+            arr[y-i][x+i]=" X "; 
+        }
+        for(int i =10;x-i>=2;i--)
+        {
+            arr[y-i][x-i]=" X "; 
+        }
+        for(int i =1;x+i<=9;i++)
+        {
+            arr[y-i][x+i]=" X "; 
+        }
+        for(int i =1;x+i<=9;i++)
+        {
+            arr[y-i][x+i]=" X "; 
+        }
+        cout<<x+4<<endl;
+>>>>>>> 8c9db727621b7df84e69ae53d460d22a2eb65316
         cout<<"bishop"<<endl;
     }
     else if(figure==" ♛ ")
@@ -615,7 +678,11 @@ int main()
                     {"7"," "," ♙ "," ♙ "," ♙ "," ♙ "," ♙ "," ♙ "," ♙ "," ♙ "},
                     {"6"," "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "},
                     {"5"," "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "},
+<<<<<<< HEAD
                     {"4"," "," ◼ "," ◻ "," ◼ "," ♚ "," ◼ "," ◻ "," ◼ "," ◻ "},
+=======
+                    {"4"," "," ◼ "," ◻ "," ◼ "," ♝ "," ◼ "," ◻ "," ◼ "," ◻ "},
+>>>>>>> 8c9db727621b7df84e69ae53d460d22a2eb65316
                     {"3"," "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "},
                     {"2"," "," ♟︎ "," ♟︎ "," ♟︎ "," ♟︎ "," ♟︎ "," ♟︎ "," ♟︎ "," ♟︎ "},
                     {"1"," "," ♜ "," ♞ "," ♝ "," ♛ "," ♚ "," ♝ "," ♞ "," ♜ "}};
