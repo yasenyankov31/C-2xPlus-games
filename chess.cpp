@@ -41,152 +41,223 @@ void WhiteMovement(string arr[10][10],int y,int x,int _x,int _y)
     arr[y][x]=squares[y][x];   
 }
 
-
-
-
-void StraightChecks(string arr[10][10],int x,int y)
+bool PawnChecks(string arr[10][10],int x,int y)
 {
-    int a=0;
-    string sub_arr[10];
+
+    if(y-1>0&&x+1<9)
+    {
+        if(arr[y-1][x+1]==" ♙ ")
+        {
+            return true;
+        }
+    }
+    else if(y-1>0&&x-1>1)
+    {
+        if(arr[y-1][x-1]==" ♙ ")
+        {
+            return true;
+        }
+    }
+    else 
+    {
+        return false;
+    }
+
+}
+
+bool KnightChecks(string arr[10][10],int x,int y)
+{
+    bool a =false;
+    int pos[8][2]={{y-2,x-1},{y-2,x+1},
+                   {y-1,x-2},{y-1,x+2},
+                   {y+2,x-1},{y+2,x+1},
+                   {y+1,x-2},{y+1,x+2},
+                   };
+
+    for(int i=0;i<8;i++)
+    {
+        //cout<<arr[pos[i][0]][pos[i][1]]<<endl;
+        //cout<<pos[i][0]<<" "<<pos[i][1]<<endl;
+        if(pos[i][0]>0&&pos[i][0]<9&&pos[i][1]>1&&pos[i][1]<10&&arr[pos[i][0]][pos[i][1]]==" ♘ ")
+        {
+            a=true;      
+        }
+        
+    }
+    return a;
+}
+
+bool StraightChecks(string arr[10][10],int x,int y)
+{
     //backward
     for(int i=y-1;i>0;i--)
     {
         if(arr[i][x]!=" ◻ "&& arr[i][x]!=" ◼ ")
         {
-            sub_arr[a]=arr[i][x];
-            a++;
-        }             
-    }
-    for(int i=0;i<10;i++)
-    {
-        if(sub_arr[0]==" ♖ "||sub_arr[0]==" ♕ ")
-        {
-            cout<<"king check"<<endl;
-            break;
+            if(arr[i][x]==" ♖ "||arr[i][x]==" ♕ ")
+            {
+                return true;
+            }
+            else if(find(begin(white),end(white),arr[i][x]) != end(white)||
+            find(begin(black),end(black),arr[i][x]) != end(black))
+            {
+                break;
+            }
         }
         //cout<<sub_arr[i]<<endl;
     }
-    fill(begin(sub_arr),end(sub_arr),0);
-    a=0;
     //forward
     for(int i=y+1;i<10;i++)
     {
         if(arr[i][x]!=" ◻ "&& arr[i][x]!=" ◼ ")
         {
-            sub_arr[a]=arr[i][x];
-            a++;
-        }             
-    }
-    for(int i=0;i<10;i++)
-    {
-        if(sub_arr[0]==" ♖ "||sub_arr[0]==" ♕ ")
-        {
-            cout<<"king check"<<endl;
-            break;
+            if(arr[i][x]==" ♖ "||arr[i][x]==" ♕ ")
+            {
+                return true;
+            }
+            else if(find(begin(white),end(white),arr[i][x]) != end(white)||
+            find(begin(black),end(black),arr[i][x]) != end(black))
+            {
+                break;
+            }
         }
         //cout<<sub_arr[i]<<endl;
     }
-    fill(begin(sub_arr),end(sub_arr),0);
-    a=0;
     //left
     for(int i=x-1;i>1;i--)
     {
         if(arr[y][i]!=" ◻ "&& arr[y][i]!=" ◼ ")
         { 
-            sub_arr[a]=arr[y][i];
-            a++;
+            if(arr[y][i]==" ♖ "||arr[y][i]==" ♕ ")
+            {
+                return true;
+            }
+            else if(find(begin(white),end(white),arr[y][i]) != end(white)||
+            find(begin(black),end(black),arr[y][i]) != end(black))
+            {
+                break;
+            }
+            
         }
-          
     }
-    for(int i=0;i<10;i++)
-    {
-        if(sub_arr[0]==" ♖ "||sub_arr[0]==" ♕ ")
-        {
-            cout<<"king check"<<endl;
-            break;
-        }
-    }
-    fill(begin(sub_arr),end(sub_arr),0);
-    a=0;
     //right
     for(int i=x+1;i<10;i++)
     {
         if(arr[y][i]!=" ◻ "&& arr[y][i]!=" ◼ ")
         {  
-            sub_arr[a]=arr[y][i];
-            a++;
-        }
-          
-    }
-    for(int i=0;i<10;i++)
-    {
-        if(sub_arr[0]==" ♖ "||sub_arr[0]==" ♕ ")
-        {
-            cout<<"king check"<<endl;
-            break;
-        }
-    }
-
-}
-
-
-void DiagonalsChecks(string arr[10][10],int x,int y)
-{
-    int a =1;
-    int j =0;
-    string sub_arr[10];
-    for(int i=y+1;i<9;i++)
-    {      
-        if(arr[i][x+a]!=" ◻ "&& arr[i][x+a]!=" ◼ ")
-        {
-            sub_arr[j]=arr[i][x+a];
-            j++; 
-        }
-        a++;
-    }
-    if(sub_arr[0]==" ♗ "||sub_arr[0]==" ♕ ")
-    {
-        cout<<"king check"<<endl;
-    }
-    //reset
-    a=1;
-    j=0;
-    fill(begin(sub_arr),end(sub_arr),0);
-    for(int i=y-1;i>1;i--)
-    {      
-        if(arr[i][x+a]!=" ◻ "&& arr[i][x+a]!=" ◼ ")
-        {
-            arr[i][x+a]=" X ";
-            j++; 
-        }
-        a++;
-    }
-}
-
-void CheckIfWhiteKingInCheck(string arr[10][10])
-{
-    int x =0;
-    int y =0;
-    
-    for (int r = 0; r < 10; r++)
-    {
-        for (int c = 0; c < 10; c++)
-        {
-            if (arr[r][c] == " ♚ ")
+            if(arr[y][i]==" ♖ "||arr[y][i]==" ♕ ")
             {
-                y=r;
-                x=c;
+                return true;
+            }
+            else if(find(begin(white),end(white),arr[y][i]) != end(white)||
+            find(begin(black),end(black),arr[y][i]) != end(black))
+            {
+                break;
             }
         }
     }
 
-    if(arr[y-2][x-1]==" ♘ "||arr[y-2][x+1]==" ♘ "||arr[y-1][x-2]==" ♘ "||arr[y-1][x+2]==" ♘ "||
-    arr[y+2][x-1]==" ♘ "||arr[y+2][x+1]==" ♘ "||arr[y+1][x-2]==" ♘ "||arr[y+1][x+2]==" ♘ ")
+    return false;
+}
+
+bool DiagonalsChecks(string arr[10][10],int x,int y)
+{
+    int a =1;
+    //backward right
+    for(int i=y+1;i<9;i++)
     {
-        cout<<"king check"<<endl;
+        if(arr[i][x+a]!=" ◻ "&& arr[i][x+a]!=" ◼ ")
+        {
+
+            if(arr[i][x+a]==" ♗ "||arr[i][x+a]==" ♕ ")
+            {
+                
+                return true;
+            }
+            else if(find(begin(white),end(white),arr[i][x+a]) != end(white)||
+            find(begin(black),end(black),arr[i][x+a]) != end(black))
+            {
+                break;
+            } 
+        }
+        a++;
     }
-    StraightChecks(arr,x,y);
-    DiagonalsChecks(arr,x,y);
+    //reset
+    a=1;
+    //forward left
+    for(int i=x-1;i>1;i--)
+    {
+        if(arr[y-a][i]!=" ◻ "&& arr[y-a][i]!=" ◼ ")
+        {
+            if(arr[y-a][i]==" ♗ "||arr[y-a][i]==" ♕ ")
+            {             
+                return true;
+            }
+            else if(find(begin(white),end(white),arr[y-a][i]) != end(white)||
+            find(begin(black),end(black),arr[y-a][i]) != end(black))
+            {
+                break;
+            }
+        }
+        a++;
+    }
+
+    //reset
+    a=1;
+    //forward right
+    for(int i=x+1;i<10;i++)
+    {
+        
+        if(arr[y-a][i]!=" ◻ "&& arr[y-a][i]!=" ◼ ")
+        {
+            if(arr[y-a][i]==" ♗ "||arr[y-a][i]==" ♕ ")
+            {
+                return true;
+            }
+            else if(find(begin(white),end(white),arr[y-a][i]) != end(white)||
+            find(begin(black),end(black),arr[y-a][i]) != end(black))
+            {
+                break;
+            }
+        }
+        a++;
+    }
+    //reset
+    a=1;
+    //backward left
+    for(int i=y+1;i<9;i++)
+    {
+        
+        if(arr[i][x-a]!=" ◻ "&& arr[i][x-a]!=" ◼ ")
+        {
+            if(arr[i][x-a]==" ♗ "||arr[i][x-a]==" ♕ ")
+            {
+                return true;
+            }
+            else if(find(begin(white),end(white),arr[i][x-a]) != end(white)||
+            find(begin(black),end(black),arr[i][x-a]) != end(black))
+            {
+                break;
+            }
+        }
+        a++;
+    }
+
+    return false;
+}
+
+bool CheckIfWhiteKingInCheck(string arr[10][10],int x,int y)
+{
+    if(KnightChecks(arr,x,y)||StraightChecks(arr,x,y)||DiagonalsChecks(arr,x,y)||PawnChecks(arr,x,y))
+    {
+        //cout<<"king check"<<endl;
+        return true;
+        
+    }
+    else
+    {
+        return false;
+    }
 
 
 }
@@ -704,13 +775,50 @@ void GetWhiteFigure(string arr[10][10],int y ,int x,int _x,int _y)
     }
 
 }
+
+bool CantMoveKing(string arr[10][10],int x,int y)    
+{
+    bool a=true;
+    int pos[8][2]={{y+1,x},{y-1,x},
+                   {y+1,x+1},{y-1,x+1},
+                   {y+1,x-1},{y-1,x-1},
+                   {y,x-1},{y,x+1},
+                   };
+    
+    for(int i=0;i<8;i++)
+    {
+        if(pos[i][0]>0&&pos[i][0]<9&&pos[i][1]>1&&pos[i][1]<10)
+        {
+            
+            if(CheckIfWhiteKingInCheck(arr,pos[i][1],pos[i][0])==false)
+            {               
+                a=false;
+                break;
+            }
+
+        }
+        
+    }
+    return a;
+
+
+}
+
+
 void WhiteTurn(string arr[10][10])
 {
     int x;
     int y;
+
     int _x;
     int _y;
-    char str[100];   
+    
+    char str[100];
+
+    string copyArr[10][10];
+    //std::fill(begin( copyArr),end( copyArr ), 0 );
+    copy(&arr[0][0], &arr[0][0]+10*10,&copyArr[0][0]);
+
     cout << " Enter a position of figure: " <<endl;  
     cin.getline(str, 100); 
       
@@ -726,7 +834,7 @@ void WhiteTurn(string arr[10][10])
     }
     for(int a=0;a<10;a++)
     {
-        string str_(words[0]);
+        string  str_(words[0]);
         str_=' '+str_+' '; 
         if(arr[0][a]==str_)
         {
@@ -764,30 +872,65 @@ void WhiteTurn(string arr[10][10])
     }
     //cout<<_x<<endl;
     //cout<<_y<<endl;
-    //pos=atoi(words[2]);// char to int 
-    GetWhiteFigure(arr,y,x,_x,_y);
-    //system("cls");
-    RenderBoard(arr);
+    //pos=atoi(words[2]);// char to int
+    GetWhiteFigure(copyArr,y,x,_x,_y);
 
+    int x1=0;
+    int y1=0;
+    for (int r = 0; r < 10; r++)
+    {
+        for (int c = 0; c < 10; c++)
+        {
+            if (copyArr[r][c] == " ♚ ")
+            {
+                y1=r;
+                x1=c;
+            }
+        }
+    }
+
+
+    if(CheckIfWhiteKingInCheck(copyArr,x1,y1))
+    {
+        
+        if(CantMoveKing(arr,x1,y1))
+        {
+            cout<<"Checkmate black won!"<<endl;
+        }
+        else 
+        {
+            //system("cls");
+            RenderBoard(arr);
+            cout<<"king in check"<<endl;
+            WhiteTurn(arr);
+        }
+    }
+    else
+    {  
+        //system("cls"); 
+        RenderBoard(copyArr);
+        copy(&copyArr[0][0], &copyArr[0][0]+10*10,&arr[0][0]);
+
+    }
        
 }
+
 
 int main()
 {
   string arr[10][10]={{"  ",""," A "," B "," C "," D "," E "," F "," G "," H "},
                     {"8"," "," ♖ "," ♘ "," ♗ "," ♕ "," ♔ "," ♗ "," ♘ "," ♖ "},
                     {"7"," "," ♙ "," ♙ "," ♙ "," ♙ "," ♙ "," ♙ "," ♙ "," ♙ "},
-                    {"6"," "," ◼ "," ♚ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "},
+                    {"6"," "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "},
                     {"5"," "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "},
                     {"4"," "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "},
-                    {"3"," "," ◻ "," ◼ "," ◻ "," ◼ "," ♕ "," ◼ "," ◻ "," ◼ "},
+                    {"3"," "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "},
                     {"2"," "," ♟︎ "," ♟︎ "," ♟︎ "," ♟︎ "," ♟︎ "," ♟︎ "," ♟︎ "," ♟︎ "},
-                    {"1"," "," ♜ "," ♞ "," ♝ "," ♛ "," ◻ "," ♝ "," ♞ "," ♜ "}};
+                    {"1"," "," ♜ "," ♞ "," ♝ "," ♛ "," ♚ "," ♝ "," ♞ "," ♜ "}};
     RenderBoard(arr);
     while(true)
     {
-    CheckIfWhiteKingInCheck(arr);
-    WhiteTurn(arr);
+        WhiteTurn(arr);       
     }
     
 
