@@ -9,6 +9,12 @@
 
 using namespace std;
 
+bool WhiteKingMoved=false;
+bool LeftRook=false;
+bool RightRook=false;
+int checkFigureX=0;
+int checkFigureY=0;
+
 const  string squares[10][10]={{"  ",""," A "," B "," C "," D "," E "," F "," G "," H "},
                     {"8"," "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "},
                     {"7"," "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "},
@@ -21,6 +27,7 @@ const  string squares[10][10]={{"  ",""," A "," B "," C "," D "," E "," F "," G 
 const string black[5]={" ♙ "," ♘ "," ♖ "," ♗ "," ♕ "};
 const string white[5]={" ♟︎ "," ♞ "," ♜ "," ♝ "," ♛ "};
 const string boxes[2]={" ◼ "," ◻ "};
+
 void RenderBoard(string arr[10][10])
 {
   int arr_length =sizeof(arr[0]) / sizeof(string);
@@ -34,6 +41,7 @@ void RenderBoard(string arr[10][10])
     cout<<""<<endl;
   }
 }
+
 void WhiteMovement(string arr[10][10],int y,int x,int _x,int _y)
 {
     auto figure=arr[y][x];
@@ -41,27 +49,66 @@ void WhiteMovement(string arr[10][10],int y,int x,int _x,int _y)
     arr[y][x]=squares[y][x];   
 }
 
+void LeftRookMoved(string arr[10][10])
+{
+    for (int r = 0; r < 10; r++)
+    {
+        for (int c = 0; c < 10; c++)
+        {
+            if (arr[8][2] != " ♜ ")
+            {
+                LeftRook=true;
+            }
+            else
+            {
+                LeftRook=false;
+            }
+        }
+    }
+
+}
+
+void RightRookMoved(string arr[10][10])
+{
+    for (int r = 0; r < 10; r++)
+    {
+        for (int c = 0; c < 10; c++)
+        {
+            if (arr[8][9] != " ♜ ")
+            {
+                RightRook=true;
+            }
+            else
+            {
+                RightRook=false;
+            }
+        }
+    }
+}
+
 bool PawnChecks(string arr[10][10],int x,int y)
 {
-
+    bool a=false;
     if(y-1>0&&x+1<9)
     {
         if(arr[y-1][x+1]==" ♙ ")
         {
-            return true;
+            checkFigureX=x+1;
+            checkFigureY=y-1;
+            a=true;
         }
     }
     else if(y-1>0&&x-1>1)
     {
         if(arr[y-1][x-1]==" ♙ ")
         {
-            return true;
+            checkFigureX=x-1;
+            checkFigureY=y-1;
+            a=true;
         }
     }
-    else 
-    {
-        return false;
-    }
+
+    return a;
 
 }
 
@@ -80,6 +127,8 @@ bool KnightChecks(string arr[10][10],int x,int y)
         //cout<<pos[i][0]<<" "<<pos[i][1]<<endl;
         if(pos[i][0]>0&&pos[i][0]<9&&pos[i][1]>1&&pos[i][1]<10&&arr[pos[i][0]][pos[i][1]]==" ♘ ")
         {
+            checkFigureX=pos[i][1];
+            checkFigureY=pos[i][0];
             a=true;      
         }
         
@@ -96,6 +145,8 @@ bool StraightChecks(string arr[10][10],int x,int y)
         {
             if(arr[i][x]==" ♖ "||arr[i][x]==" ♕ ")
             {
+                checkFigureX=x;
+                checkFigureY=i;
                 return true;
             }
             else if(find(begin(white),end(white),arr[i][x]) != end(white)||
@@ -113,6 +164,8 @@ bool StraightChecks(string arr[10][10],int x,int y)
         {
             if(arr[i][x]==" ♖ "||arr[i][x]==" ♕ ")
             {
+                checkFigureX=x;
+                checkFigureY=i;
                 return true;
             }
             else if(find(begin(white),end(white),arr[i][x]) != end(white)||
@@ -130,6 +183,8 @@ bool StraightChecks(string arr[10][10],int x,int y)
         { 
             if(arr[y][i]==" ♖ "||arr[y][i]==" ♕ ")
             {
+                checkFigureX=i;
+                checkFigureY=y;
                 return true;
             }
             else if(find(begin(white),end(white),arr[y][i]) != end(white)||
@@ -147,6 +202,8 @@ bool StraightChecks(string arr[10][10],int x,int y)
         {  
             if(arr[y][i]==" ♖ "||arr[y][i]==" ♕ ")
             {
+                checkFigureX=i;
+                checkFigureY=y;
                 return true;
             }
             else if(find(begin(white),end(white),arr[y][i]) != end(white)||
@@ -171,7 +228,8 @@ bool DiagonalsChecks(string arr[10][10],int x,int y)
 
             if(arr[i][x+a]==" ♗ "||arr[i][x+a]==" ♕ ")
             {
-                
+                checkFigureX=x+a;
+                checkFigureY=i;
                 return true;
             }
             else if(find(begin(white),end(white),arr[i][x+a]) != end(white)||
@@ -190,7 +248,9 @@ bool DiagonalsChecks(string arr[10][10],int x,int y)
         if(arr[y-a][i]!=" ◻ "&& arr[y-a][i]!=" ◼ ")
         {
             if(arr[y-a][i]==" ♗ "||arr[y-a][i]==" ♕ ")
-            {             
+            {    
+                checkFigureX=i;
+                checkFigureY=y-a;       
                 return true;
             }
             else if(find(begin(white),end(white),arr[y-a][i]) != end(white)||
@@ -207,11 +267,13 @@ bool DiagonalsChecks(string arr[10][10],int x,int y)
     //forward right
     for(int i=x+1;i<10;i++)
     {
-        
         if(arr[y-a][i]!=" ◻ "&& arr[y-a][i]!=" ◼ ")
         {
             if(arr[y-a][i]==" ♗ "||arr[y-a][i]==" ♕ ")
             {
+                //cout<<"check"<<endl;
+                checkFigureX=i;
+                checkFigureY=y-a;  
                 return true;
             }
             else if(find(begin(white),end(white),arr[y-a][i]) != end(white)||
@@ -232,6 +294,8 @@ bool DiagonalsChecks(string arr[10][10],int x,int y)
         {
             if(arr[i][x-a]==" ♗ "||arr[i][x-a]==" ♕ ")
             {
+                checkFigureX=x-a;
+                checkFigureY=i;  
                 return true;
             }
             else if(find(begin(white),end(white),arr[i][x-a]) != end(white)||
@@ -651,13 +715,16 @@ void GetWhiteFigure(string arr[10][10],int y ,int x,int _x,int _y)
     }
     else if(figure==" ♚ ")
     {
+        
         if(y-1>=1&&x+1<10&&x-1>=1)
         {
             if(y-1==_y&&x+1==_x)
             {
-                if(find(begin(black),end(black),arr[_y][_x]) != end(black)
+                if((find(begin(black),end(black),arr[_y][_x]) != end(black)
                 ||find(begin(boxes),end(boxes),arr[_y][_x]) != end(boxes))
+                &&!CheckIfWhiteKingInCheck(arr,_x,_y))
                 {
+                    WhiteKingMoved=true;
                     WhiteMovement(arr,y,x,_x,_y);
                 }
                 //arr[y-1][x+1]=" X ";
@@ -665,9 +732,11 @@ void GetWhiteFigure(string arr[10][10],int y ,int x,int _x,int _y)
             }
             else if(y-1==_y&&x-1==_x)
             {
-                if(find(begin(black),end(black),arr[_y][_x]) != end(black)
+                if((find(begin(black),end(black),arr[_y][_x]) != end(black)
                 ||find(begin(boxes),end(boxes),arr[_y][_x]) != end(boxes))
+                &&!CheckIfWhiteKingInCheck(arr,_x,_y))
                 {
+                    WhiteKingMoved=true;
                     WhiteMovement(arr,y,x,_x,_y);
                 }
                 //arr[y-1][x-1]=" X ";
@@ -679,9 +748,11 @@ void GetWhiteFigure(string arr[10][10],int y ,int x,int _x,int _y)
         {
             if(y+1==_y&&x+1==_x)
             {
-                if(find(begin(black),end(black),arr[_y][_x]) != end(black)
+                if((find(begin(black),end(black),arr[_y][_x]) != end(black)
                 ||find(begin(boxes),end(boxes),arr[_y][_x]) != end(boxes))
+                &&!CheckIfWhiteKingInCheck(arr,_x,_y))
                 {
+                    WhiteKingMoved=true;
                     WhiteMovement(arr,y,x,_x,_y);
                 }
                 //arr[y+1][x+1]=" X ";
@@ -689,9 +760,11 @@ void GetWhiteFigure(string arr[10][10],int y ,int x,int _x,int _y)
             }
             else if(y+1==_y&&x-1==_x)
             {
-                if(find(begin(black),end(black),arr[_y][_x]) != end(black)
+                if((find(begin(black),end(black),arr[_y][_x]) != end(black)
                 ||find(begin(boxes),end(boxes),arr[_y][_x]) != end(boxes))
+                &&!CheckIfWhiteKingInCheck(arr,_x,_y))
                 {
+                    WhiteKingMoved=true;
                     WhiteMovement(arr,y,x,_x,_y);
                 }
                 //arr[y+1][x-1]=" X ";
@@ -703,9 +776,11 @@ void GetWhiteFigure(string arr[10][10],int y ,int x,int _x,int _y)
         {
             if(y==_y&&x+1==_x)
             {
-                if(find(begin(black),end(black),arr[_y][_x]) != end(black)
+                if((find(begin(black),end(black),arr[_y][_x]) != end(black)
                 ||find(begin(boxes),end(boxes),arr[_y][_x]) != end(boxes))
+                &&!CheckIfWhiteKingInCheck(arr,_x,_y))
                 {
+                    WhiteKingMoved=true;
                     WhiteMovement(arr,y,x,_x,_y);
                 }
                 //arr[y][x+1]=" X ";
@@ -713,9 +788,11 @@ void GetWhiteFigure(string arr[10][10],int y ,int x,int _x,int _y)
             }
             else if(y==_y&&x-1==_x)
             {
-                if(find(begin(black),end(black),arr[_y][_x]) != end(black)
+                if((find(begin(black),end(black),arr[_y][_x]) != end(black)
                 ||find(begin(boxes),end(boxes),arr[_y][_x]) != end(boxes))
+                &&!CheckIfWhiteKingInCheck(arr,_x,_y))
                 {
+                    WhiteKingMoved=true;
                     WhiteMovement(arr,y,x,_x,_y);
                 }
                 //arr[y][x-1]=" X ";
@@ -727,9 +804,11 @@ void GetWhiteFigure(string arr[10][10],int y ,int x,int _x,int _y)
         {
             if(y-1==_y&&x==_x)
             {
-                if(find(begin(black),end(black),arr[_y][_x]) != end(black)
+                if((find(begin(black),end(black),arr[_y][_x]) != end(black)
                 ||find(begin(boxes),end(boxes),arr[_y][_x]) != end(boxes))
+                &&!CheckIfWhiteKingInCheck(arr,_x,_y))
                 {
+                    WhiteKingMoved=true;
                     WhiteMovement(arr,y,x,_x,_y);
                 }
                 //arr[y-1][x]=" X ";
@@ -737,15 +816,63 @@ void GetWhiteFigure(string arr[10][10],int y ,int x,int _x,int _y)
             }
             else if(y+1==_y&&x==_x)
             {
-                if(find(begin(black),end(black),arr[_y][_x]) != end(black)
+                if((find(begin(black),end(black),arr[_y][_x]) != end(black)
                 ||find(begin(boxes),end(boxes),arr[_y][_x]) != end(boxes))
+                &&!CheckIfWhiteKingInCheck(arr,_x,_y))
                 {
+                    WhiteKingMoved=true;
                     WhiteMovement(arr,y,x,_x,_y);
                 }
                 //arr[y+1][x]=" X ";
             }
                  
         }
+
+        //Rokada left side
+        for(int i=x-1;i>1;i--)
+        {
+            if(CheckIfWhiteKingInCheck(arr,i,y))
+            {
+                break;
+            }
+            if(arr[y][i]!=" ◻ "&& arr[y][i]!=" ◼ ")
+            {
+                if(arr[y][i]==" ♜ ")
+                {
+                    if(!WhiteKingMoved&&!LeftRook&&_x==2&&_y==8)
+                    {                   
+                        arr[y][x-2]=arr[y][x];
+                        arr[y][x-1]=arr[_y][_x];
+                        arr[_y][_x]=squares[y][x];
+                        arr[y][x]=squares[y][x];
+                        WhiteKingMoved=true;    
+                    }
+                }
+            } 
+        }
+        //Rokada right side
+        for(int i=x+1;i<10;i++)
+        {
+            if(CheckIfWhiteKingInCheck(arr,i,y))
+            {
+                break;
+            }
+            if(arr[y][i]!=" ◻ "&& arr[y][i]!=" ◼ ")
+            {
+                if(arr[y][i]==" ♜ ")
+                {
+                    if(!WhiteKingMoved&&!RightRook&&_x==9&&_y==8)
+                    {
+                        arr[y][x+2]=arr[y][x];
+                        arr[y][x+1]=arr[_y][_x];
+                        arr[_y][_x]=squares[y][x];
+                        arr[y][x]=squares[y][x];
+                        WhiteKingMoved=true;   
+                    }
+                }
+            } 
+        }
+
 
         cout<<"king"<<endl;
     }
@@ -788,8 +915,7 @@ bool CantMoveKing(string arr[10][10],int x,int y)
     for(int i=0;i<8;i++)
     {
         if(pos[i][0]>0&&pos[i][0]<9&&pos[i][1]>1&&pos[i][1]<10)
-        {
-            
+        {  
             if(CheckIfWhiteKingInCheck(arr,pos[i][1],pos[i][0])==false)
             {               
                 a=false;
@@ -804,9 +930,9 @@ bool CantMoveKing(string arr[10][10],int x,int y)
 
 }
 
-
 void WhiteTurn(string arr[10][10])
 {
+
     int x;
     int y;
 
@@ -873,7 +999,11 @@ void WhiteTurn(string arr[10][10])
     //cout<<_x<<endl;
     //cout<<_y<<endl;
     //pos=atoi(words[2]);// char to int
+
     GetWhiteFigure(copyArr,y,x,_x,_y);
+
+    LeftRookMoved(arr);
+    RightRookMoved(arr);
 
     int x1=0;
     int y1=0;
@@ -881,7 +1011,7 @@ void WhiteTurn(string arr[10][10])
     {
         for (int c = 0; c < 10; c++)
         {
-            if (copyArr[r][c] == " ♚ ")
+            if (arr[r][c] == " ♚ ")
             {
                 y1=r;
                 x1=c;
@@ -889,21 +1019,21 @@ void WhiteTurn(string arr[10][10])
         }
     }
 
-
     if(CheckIfWhiteKingInCheck(copyArr,x1,y1))
-    {
-        
+    {  
+        cout<<arr[checkFigureY][checkFigureX]<<endl; 
         if(CantMoveKing(arr,x1,y1))
         {
             cout<<"Checkmate black won!"<<endl;
         }
-        else 
+        else
         {
             //system("cls");
-            RenderBoard(arr);
             cout<<"king in check"<<endl;
+            RenderBoard(arr);
             WhiteTurn(arr);
         }
+
     }
     else
     {  
@@ -921,12 +1051,13 @@ int main()
   string arr[10][10]={{"  ",""," A "," B "," C "," D "," E "," F "," G "," H "},
                     {"8"," "," ♖ "," ♘ "," ♗ "," ♕ "," ♔ "," ♗ "," ♘ "," ♖ "},
                     {"7"," "," ♙ "," ♙ "," ♙ "," ♙ "," ♙ "," ♙ "," ♙ "," ♙ "},
-                    {"6"," "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "},
+                    {"6"," "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ♗ "," ◻ "},
                     {"5"," "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "},
                     {"4"," "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "},
-                    {"3"," "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "," ◻ "," ◼ "},
+                    {"3"," "," ◻ "," ◼ "," ◻ "," ♚ "," ◻ "," ◼ "," ◻ "," ◼ "},
                     {"2"," "," ♟︎ "," ♟︎ "," ♟︎ "," ♟︎ "," ♟︎ "," ♟︎ "," ♟︎ "," ♟︎ "},
-                    {"1"," "," ♜ "," ♞ "," ♝ "," ♛ "," ♚ "," ♝ "," ♞ "," ♜ "}};
+                    {"1"," "," ♜ "," ♞ "," ♝ "," ♛ "," ◻ "," ♝ "," ♞ "," ♜ "}};
+
     RenderBoard(arr);
     while(true)
     {
